@@ -24,7 +24,7 @@ namespace LightProsperity
                 {
                     if (settlement.IsTown)
                     {
-                        settlement.Prosperity -= Settings.Instance.TownRecruitProsperityCost * count;
+                        settlement.Prosperity -= SubModule.Settings.townRecruitProsperityCost * count;
                         if (settlement.Prosperity < 0)
                         {
                             settlement.Prosperity = 0;
@@ -32,7 +32,7 @@ namespace LightProsperity
                     }
                     if (settlement.IsVillage)
                     {
-                        settlement.Village.Hearth -= Settings.Instance.VillageRecruitProsperityCost * count;
+                        settlement.Village.Hearth -= SubModule.Settings.villageRecruitProsperityCost * count;
                         if (settlement.Village.Hearth < 0)
                         {
                             settlement.Village.Hearth = 0;
@@ -53,11 +53,11 @@ namespace LightProsperity
             {
                 if (settlement.IsTown)
                 {
-                    settlement.Prosperity -= Settings.Instance.TownRecruitProsperityCost * count;
+                    settlement.Prosperity -= SubModule.Settings.townRecruitProsperityCost * count;
                 }
                 if (settlement.IsVillage)
                 {
-                    settlement.Village.Hearth -= Settings.Instance.VillageRecruitProsperityCost * count;
+                    settlement.Village.Hearth -= SubModule.Settings.villageRecruitProsperityCost * count;
                     if (settlement.Village.Hearth < 0)
                     {
                         settlement.Village.Hearth = 0;
@@ -83,11 +83,11 @@ namespace LightProsperity
             if (HeroHelper.HeroShouldGiveEliteTroop(notable))
             {
                 double notableMinPowerForNobleRecruit = 200;
-                double chance = ((double)notable.Power - notableMinPowerForNobleRecruit) / (Settings.Instance.NotablePowerThresholdForNobleRecruit - notableMinPowerForNobleRecruit);
+                double chance = ((double)notable.Power - notableMinPowerForNobleRecruit) / (SubModule.Settings.notablePowerThresholdForNobleRecruit - notableMinPowerForNobleRecruit);
                 if ((double)MBRandom.RandomFloat < chance)
                 {
                     notable.VolunteerTypes[index] = cultureObject.EliteBasicTroop;
-                    int powerMinus = Math.Min(notable.Power - 1, (int)Settings.Instance.NotableNobleRecruitPowerCost);
+                    int powerMinus = Math.Min(notable.Power - 1, (int)SubModule.Settings.notableNobleRecruitPowerCost);
                     notable.AddPower(-powerMinus);
                 }
                 else
@@ -150,8 +150,8 @@ namespace LightProsperity
 
         private static int GetDailyCastleNobleRecruitCount(Settlement settlement)
         {
-            double chance = (settlement.Prosperity - Settings.Instance.CastleMinProsperityForRecruit) /
-                (Settings.Instance.CastleProsperityThreshold - Settings.Instance.CastleMinProsperityForRecruit);
+            double chance = (settlement.Prosperity - SubModule.Settings.castleMinProsperityForRecruit) /
+                (SubModule.Settings.castleProsperityThreshold - SubModule.Settings.castleMinProsperityForRecruit);
             int num = (int)Math.Floor(chance);
             num += (double)MBRandom.RandomFloat < (chance - num) ? 1 : 0;
             return num;
@@ -177,7 +177,7 @@ namespace LightProsperity
                 if (count > 0)
                 {
                     settlement.Town.GarrisonParty.MemberRoster.AddToCounts(troop, count, false, 0, 0, true, -1);
-                    settlement.Prosperity -= Settings.Instance.CastleRecruitProsperityCost * count;
+                    settlement.Prosperity -= SubModule.Settings.castleRecruitProsperityCost * count;
                 }
             }
         }

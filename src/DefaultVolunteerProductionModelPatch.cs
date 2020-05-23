@@ -16,16 +16,16 @@ namespace LightProsperity
         {
             if (settlement.IsTown)
             {
-                double multiplier = (settlement.Prosperity - Settings.Instance.TownMinProsperityForRecruit) /
-                    (Settings.Instance.TownProsperityThreshold - Settings.Instance.TownMinProsperityForRecruit);
+                double multiplier = (settlement.Prosperity - SubModule.Settings.townMinProsperityForRecruit) /
+                    (SubModule.Settings.townProsperityThreshold - SubModule.Settings.townMinProsperityForRecruit);
                 multiplier = Math.Max(multiplier, 0);
                 multiplier = Math.Pow(multiplier, 0.7);
                 __result *= (float)multiplier;
             }
             if (settlement.IsVillage)
             {
-                double multiplier = (settlement.Village.Hearth - Settings.Instance.VillageMinProsperityForRecruit) /
-                    (Settings.Instance.VillageProsperityThreshold - Settings.Instance.VillageMinProsperityForRecruit);
+                double multiplier = (settlement.Village.Hearth - SubModule.Settings.villageMinProsperityForRecruit) /
+                    (SubModule.Settings.villageProsperityThreshold - SubModule.Settings.villageMinProsperityForRecruit);
                 multiplier = Math.Max(multiplier, 0);
                 multiplier = Math.Pow(multiplier, 0.7);
                 __result *= (float)multiplier;

@@ -14,15 +14,15 @@ namespace LightProsperity
         {
             if (explanation != null)
             {
-                explanation.AddLine("Prosperity Bonus", Settings.Instance.MilitiaGrowthBonus);
+                explanation.AddLine("Prosperity Bonus", SubModule.Settings.militiaGrowthBonus);
             }
 
-            __result += Settings.Instance.MilitiaGrowthBonus;
+            __result += SubModule.Settings.militiaGrowthBonus;
         }
 
         public static bool Prepare()
         {
-            return Settings.Instance.MilitiaGrowthBonus != 0;
+            return SubModule.Settings.militiaGrowthBonus != 0;
         }
     }
 }

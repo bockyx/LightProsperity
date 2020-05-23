@@ -1,4 +1,7 @@
 ﻿using HarmonyLib;
+using Newtonsoft.Json;
+using System.IO;
+using System.Reflection;
 using TaleWorlds.CampaignSystem;
 using TaleWorlds.Core;
 using TaleWorlds.MountAndBlade;
@@ -7,32 +10,42 @@ namespace LightProsperity
 {
     public class SubModule : MBSubModuleBase
     {
-        private bool Patched = false;
-        private Settings settings => Settings.Instance;
+        public static Settings Settings { get; private set; }
 
-        protected override void OnBeforeInitialModuleScreenSetAsRoot()
+        private static void LoadSettings()
         {
-            if (!Patched)
+            string configPath = Path.Combine(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location), "settings.json");
+            try
             {
-                var harmony = new Harmony("mod.bannerlord.lightprosperity");
-                harmony.PatchAll();
-                Patched = true;
+                SubModule.Settings = JsonConvert.DeserializeObject<Settings>(File.ReadAllText(configPath));
+            }
+            catch
+            {
             }
         }
 
-        protected override void OnGameStart(Game game, IGameStarter gameStarterObject)
+        protected override void OnSubModuleLoad()
         {
-            base.OnGameStart(game, gameStarterObject);
-            AddModels(gameStarterObject as CampaignGameStarter);
+            base.OnSubModuleLoad();
+
+            SubModule.LoadSettings();
+            var harmony = new Harmony("mod.bannerlord.light");
+            harmony.PatchAll();
         }
+
+        //protected override void OnGameStart(Game game, IGameStarter gameStarterObject)
+        //{
+        //    base.OnGameStart(game, gameStarterObject);
+        //    AddModels(gameStarterObject as CampaignGameStarter);
+        //}
 
         private void AddModels(CampaignGameStarter gameStarter)
         {
-            if (settings.ModifyGarrisonConsumption)
+            if (Settings.garrisonFoodConsumpetionMultiplier != 1.0f)
             {
                 gameStarter?.AddModel(new LightSettlementGarrisonModel());
             }
-            if (settings.NewProsperityModel)
+            if (Settings.newProsperityModel)
             {
                 gameStarter?.AddModel(new LightSettlementProsperityModel());
             }
