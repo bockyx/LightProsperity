@@ -8,6 +8,7 @@ namespace LightProsperity
     public class SubModule : MBSubModuleBase
     {
         private bool Patched = false;
+        private Settings settings => Settings.Instance;
 
         protected override void OnBeforeInitialModuleScreenSetAsRoot()
         {
@@ -27,11 +28,11 @@ namespace LightProsperity
 
         private void AddModels(CampaignGameStarter gameStarter)
         {
-            if (Settings.Instance.ModifyGarrisonConsumption)
+            if (settings.ModifyGarrisonConsumption)
             {
                 gameStarter?.AddModel(new LightSettlementGarrisonModel());
             }
-            if (Settings.Instance.NewProsperityModel)
+            if (settings.NewProsperityModel)
             {
                 gameStarter?.AddModel(new LightSettlementProsperityModel());
             }
